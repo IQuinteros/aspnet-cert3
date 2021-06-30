@@ -42,9 +42,9 @@
             @Html.DisplayFor(modelItem => item.Edad)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Update", new { id=item.RutOnlyDigits() }) |
+            @Html.ActionLink("Edit", "Update", new { id = item.RutOnlyDigits }) |
             @Html.ActionLink("Details", "Details", new {  /*id=item.Rut*/ }) |
-            @Html.ActionLink("Delete", "Delete", new {  /*id=item.Rut*/  })
+            @Html.ActionLink("Delete", "Delete", new { id = item.RutOnlyDigits })
         </td>
     </tr>
 }

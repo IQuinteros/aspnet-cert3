@@ -9,26 +9,101 @@ namespace IgnacioQuinteros.Controllers
 {
     public class EmpresaController : Controller
     {
+        certame3Entities2 certamenCtx = new certame3Entities2();
+
         // GET: Empresa
         public ActionResult Index()
         {
-            var certamen = new certame3Entities2();
-            return View(certamen.Empresas);
+            return View(certamenCtx.Empresas);
         }
 
-        public ActionResult Update()
+        public ActionResult Update(int id)
         {
-            return View();
+            Empresa empresa = certamenCtx.Empresas.Find(id);
+
+            if (empresa != null)
+            {
+                return View(empresa);
+            }
+            else
+            {
+                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+            }
         }
 
-        public ActionResult Delete()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(Empresa empresa)
         {
-            return View();
+            try
+            {
+                Empresa found = certamenCtx.Empresas.Find(empresa.Id);
+                found.Popularidad = empresa.Popularidad;
+                found.Fecha = empresa.Fecha;
+                found.Descripcion = empresa.Descripcion;
+                found.Correo = empresa.Correo;
+                certamenCtx.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new HandleErrorInfo(e, "Empresa", "Index"));
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            Empresa empresa = certamenCtx.Empresas.Find(id);
+
+            if (empresa != null)
+            {
+                return View(empresa);
+            }
+            else
+            {
+                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+            }
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(int id)
+        {
+            try
+            {
+                Empresa found = certamenCtx.Empresas.Find(id);
+                certamenCtx.Empresas.Remove(found);
+                certamenCtx.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return View("Error", new HandleErrorInfo(e, "Empresa", "Index"));
+            }
         }
 
         public ActionResult Insert()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Insert(Empresa empresa)
+        {
+            try
+            {
+                certamenCtx.Empresas.Add(empresa);
+                certamenCtx.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return View("Error", new HandleErrorInfo(e, "Empresa", "Index"));
+            }
         }
     }
 }

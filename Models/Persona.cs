@@ -21,14 +21,17 @@ namespace IgnacioQuinteros.Models
         public string Nombres { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de nacimiento")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Fecha { get; set; }
         [Range(18, 100)]
         public Nullable<byte> Edad { get; set; }
 
-        public string RutOnlyDigits() => String.Join("", String.Join("", Rut.Split('.')).Split('-'));
+        public string RutOnlyDigits => String.Join("", String.Join("", Rut.Split('.')).Split('-'));
         public static string DigitsToRut(string digits)
         {
-            return digits.Insert(digits.Length-1, "-");
+            if (String.IsNullOrEmpty(digits) || digits.Length <= 1) return "";
+            string withHyphen = digits.Insert(digits.Length-1, "-");
+            return int.Parse(withHyphen.Split('-')[0]).ToString("##,###,###").Replace(',', '.') + "-" + withHyphen.Split('-')[1];
         }
 
     }
