@@ -9,7 +9,7 @@ namespace IgnacioQuinteros.Controllers
 {
     public class PersonaController : Controller
     {
-        certame3Entities2 certamenCtx = new certame3Entities2();
+        Certame3Context certamenCtx = new Certame3Context();
 
         // GET: Persona
         public ActionResult Index()
