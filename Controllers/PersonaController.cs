@@ -17,6 +17,20 @@ namespace IgnacioQuinteros.Controllers
             return View(certamenCtx.Personas);
         }
 
+        public ActionResult Detail(string id)
+        {
+            Persona persona = certamenCtx.Personas.Find(Persona.DigitsToRut(id));
+
+            if (persona != null)
+            {
+                return View(persona);
+            }
+            else
+            {
+                return View("Error", new HandleErrorInfo(new Exception(), "Persona", "Index"));
+            }
+        }
+
         public ActionResult Update(string id)
         {
             Persona persona = certamenCtx.Personas.Find(Persona.DigitsToRut(id));
@@ -33,14 +47,29 @@ namespace IgnacioQuinteros.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(Persona persona)
+        public ActionResult Update(Persona persona, string prerut)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
-                Persona found = certamenCtx.Personas.Find(persona.Rut);
-                found.Nombres = persona.Nombres;
-                found.Fecha = persona.Fecha;
-                found.Edad = persona.Edad;
+                Persona found = certamenCtx.Personas.Find(prerut);
+                if(found == null) return View("Error", new HandleErrorInfo(new Exception("Found is null"), "Persona", "Index"));
+
+                if (prerut.Equals(persona.Rut))
+                {
+                    found.Nombres = persona.Nombres;
+                    found.Fecha = persona.Fecha;
+                    found.Edad = persona.Edad;
+                }
+                else
+                {
+                    certamenCtx.Personas.Remove(found);
+                    certamenCtx.Personas.Add(persona);
+                }
                 certamenCtx.SaveChanges();
                 return RedirectToAction("Index");
             } catch(Exception e) {
@@ -91,6 +120,11 @@ namespace IgnacioQuinteros.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Insert(Persona persona)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 persona.Rut = Persona.DigitsToRut(persona.RutOnlyDigits);

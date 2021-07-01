@@ -15,14 +15,17 @@ namespace IgnacioQuinteros.Models
 
     public partial class Persona
     {
-        // TODO: REGEX
+        [Required]
+        [StringLength(12)]
+        [RegularExpression(@"\d{1,2}\.?\d{3}\.?\d{3}\-?[0-9kK]{1}", ErrorMessage = "El Rut no es válido")]
         public string Rut { get; set; }
         [StringLength(20)]
         public string Nombres { get; set; }
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Display(Name = "Fecha de nacimiento")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Fecha { get; set; }
+        [Required]
         [Range(18, 100)]
         public Nullable<byte> Edad { get; set; }
 

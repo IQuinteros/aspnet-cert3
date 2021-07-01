@@ -17,6 +17,20 @@ namespace IgnacioQuinteros.Controllers
             return View(certamenCtx.Empresas);
         }
 
+        public ActionResult Detail(int id)
+        {
+            Empresa empresa = certamenCtx.Empresas.Find(id);
+
+            if (empresa != null)
+            {
+                return View(empresa);
+            }
+            else
+            {
+                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+            }
+        }
+
         public ActionResult Update(int id)
         {
             Empresa empresa = certamenCtx.Empresas.Find(id);
@@ -35,6 +49,11 @@ namespace IgnacioQuinteros.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(Empresa empresa)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 Empresa found = certamenCtx.Empresas.Find(empresa.Id);
@@ -93,6 +112,11 @@ namespace IgnacioQuinteros.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Insert(Empresa empresa)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 certamenCtx.Empresas.Add(empresa);
