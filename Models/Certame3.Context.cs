@@ -13,10 +13,10 @@ namespace IgnacioQuinteros.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class certame3Entities2 : DbContext
+    public partial class Certame3Context : DbContext
     {
-        public certame3Entities2()
-            : base("name=certame3Entities2")
+        public Certame3Context()
+            : base("name=Certame3Context")
         {
         }
     

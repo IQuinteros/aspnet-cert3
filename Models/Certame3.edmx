@@ -52,7 +52,7 @@
           <Property Name="Fecha" Type="DateTime" Precision="0" />
           <Property Name="Edad" Type="Byte" />
         </EntityType>
-        <EntityContainer Name="certame3Entities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Certame3Context" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Empresas" EntityType="Self.Empresa" />
           <EntitySet Name="Personas" EntityType="Self.Persona" />
         </EntityContainer>
@@ -61,7 +61,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="certame3ModelStoreContainer" CdmEntityContainer="certame3Entities2">
+        <EntityContainerMapping StorageEntityContainer="certame3ModelStoreContainer" CdmEntityContainer="Certame3Context">
           <EntitySetMapping Name="Empresas">
             <EntityTypeMapping TypeName="certame3Model.Empresa">
               <MappingFragment StoreEntitySet="Empresa">

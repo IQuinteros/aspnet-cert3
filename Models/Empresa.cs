@@ -11,43 +11,13 @@ namespace IgnacioQuinteros.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Text.RegularExpressions;
-
+    
     public partial class Empresa
     {
         public int Id { get; set; }
-        [Required]
-        [ValidEmail (ErrorMessage = "El email no cumple con el formato requerido")]
         public string Correo { get; set; }
-        // Descripción opcional
-        [StringLength(100)]
         public string Descripcion { get; set; }
-        // Popularidad opcional
         public Nullable<double> Popularidad { get; set; }
-        // Fecha opcional
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Fecha de creación")]
         public Nullable<System.DateTime> Fecha { get; set; }
-    }
-
-    public class ValidEmail : ValidationAttribute
-    {
-        public override bool IsValid(object value)
-        {
-            if (value == null || String.IsNullOrEmpty(value.ToString())) return false;
-            string text = value.ToString();
-            Regex regex = new Regex(@"^(?=.{1,20}$)[aA-zZ]*[\.]?[aA-zZ]*@[aA-zZ]{2,5}[\.][aA-zZ]{2}$");
-            Match result = regex.Match(text);
-            if (result.Success && text.Split('@')[0].Length >= 3 && text.Split('@')[0].Length <= 10)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

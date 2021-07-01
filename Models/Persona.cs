@@ -11,34 +11,12 @@ namespace IgnacioQuinteros.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Persona
     {
-        [Required]
-        [StringLength(12)]
-        [RegularExpression(@"\d{1,2}\.?\d{3}\.?\d{3}\-?[0-9kK]{1}", ErrorMessage = "El Rut no es válido")]
         public string Rut { get; set; }
-        [StringLength(20)]
-        // Se agrega como requerido, para que las personas queden con nombres, a pesar de que la instrucción no lo menciona
-        [Required]
         public string Nombres { get; set; }
-        // Las instrucciones no hablan de los campos Nombre o Fechas requeridas.
-        [DataType(DataType.DateTime)]
-        [Display(Name = "Fecha de nacimiento")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Fecha { get; set; }
-        [Required]
-        [Range(18, 100)]
         public Nullable<byte> Edad { get; set; }
-
-        public string RutOnlyDigits => String.Join("", String.Join("", Rut.Split('.')).Split('-'));
-        public static string DigitsToRut(string digits)
-        {
-            if (String.IsNullOrEmpty(digits) || digits.Length <= 1) return "";
-            string withHyphen = digits.Insert(digits.Length-1, "-");
-            return int.Parse(withHyphen.Split('-')[0]).ToString("##,###,###").Replace(',', '.') + "-" + withHyphen.Split('-')[1];
-        }
-
     }
 }
