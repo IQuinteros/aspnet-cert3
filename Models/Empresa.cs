@@ -20,9 +20,12 @@ namespace IgnacioQuinteros.Models
         [Required]
         [ValidEmail (ErrorMessage = "El email no cumple con el formato requerido")]
         public string Correo { get; set; }
+        // Descripción opcional
         [StringLength(100)]
         public string Descripcion { get; set; }
+        // Popularidad opcional
         public Nullable<double> Popularidad { get; set; }
+        // Fecha opcional
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de creación")]

@@ -20,7 +20,10 @@ namespace IgnacioQuinteros.Models
         [RegularExpression(@"\d{1,2}\.?\d{3}\.?\d{3}\-?[0-9kK]{1}", ErrorMessage = "El Rut no es válido")]
         public string Rut { get; set; }
         [StringLength(20)]
+        // Se agrega como requerido, para que las personas queden con nombres, a pesar de que la instrucción no lo menciona
+        [Required]
         public string Nombres { get; set; }
+        // Las instrucciones no hablan de los campos Nombre o Fechas requeridas.
         [DataType(DataType.DateTime)]
         [Display(Name = "Fecha de nacimiento")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]

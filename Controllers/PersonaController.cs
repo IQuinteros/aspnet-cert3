@@ -27,7 +27,7 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Persona", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la persona para ver detalles"), "Persona", "Index"));
             }
         }
 
@@ -41,7 +41,7 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Persona", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la persona para editar"), "Persona", "Index"));
             }
         }
 
@@ -87,7 +87,7 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Persona", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la persona para eliminar"), "Persona", "Index"));
             }
         }
 
@@ -128,6 +128,9 @@ namespace IgnacioQuinteros.Controllers
             try
             {
                 persona.Rut = Persona.DigitsToRut(persona.RutOnlyDigits);
+
+                if (certamenCtx.Personas.Find(persona.Rut) != null) throw new Exception("El rut ya existe");
+
                 certamenCtx.Personas.Add(persona);
                 certamenCtx.SaveChanges();
                 return RedirectToAction("Index");

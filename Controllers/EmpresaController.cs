@@ -17,8 +17,10 @@ namespace IgnacioQuinteros.Controllers
             return View(certamenCtx.Empresas);
         }
 
-        public ActionResult Detail(int id)
+        public ActionResult Detail(int? id)
         {
+            if (id == null) return RedirectToAction("Index");
+
             Empresa empresa = certamenCtx.Empresas.Find(id);
 
             if (empresa != null)
@@ -27,12 +29,14 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la empresa para ver detalles"), "Empresa", "Index"));
             }
         }
 
-        public ActionResult Update(int id)
+        public ActionResult Update(int? id)
         {
+            if (id == null) return RedirectToAction("Index");
+
             Empresa empresa = certamenCtx.Empresas.Find(id);
 
             if (empresa != null)
@@ -41,7 +45,7 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la empresa para editar"), "Empresa", "Index"));
             }
         }
 
@@ -70,8 +74,10 @@ namespace IgnacioQuinteros.Controllers
             }
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
+            if (id == null) return RedirectToAction("Index");
+
             Empresa empresa = certamenCtx.Empresas.Find(id);
 
             if (empresa != null)
@@ -80,15 +86,17 @@ namespace IgnacioQuinteros.Controllers
             }
             else
             {
-                return View("Error", new HandleErrorInfo(new Exception(), "Empresa", "Index"));
+                return View("Error", new HandleErrorInfo(new Exception("No se ha encontrado a la empresa para eliminar"), "Empresa", "Index"));
             }
         }
 
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(int id)
+        public ActionResult DeletePost(int? id)
         {
+            if (id == null) return RedirectToAction("Index");
+
             try
             {
                 Empresa found = certamenCtx.Empresas.Find(id);
